@@ -1,1 +1,5 @@
+# IDE
+.idea/
+
+# Rust Binaries and Intermediates
 /target
