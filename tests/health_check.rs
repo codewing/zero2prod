@@ -1,5 +1,5 @@
-use sqlx::{Connection, PgConnection};
 use std::net::TcpListener;
+use sqlx::{Connection, PgConnection};
 use zero2prod::configuration::get_configuration;
 
 #[tokio::test]
