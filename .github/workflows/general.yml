@@ -9,6 +9,9 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    env:
+      SQLX_VERSION: 0.6.2
+      SQLX_FEATURES: "rustls,postgres"
     services:
       postgres:
         image: postgres:12
@@ -18,9 +21,6 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
-      env:
-        SQLX_VERSION: 0.6.2
-        SQLX_FEATURES: "rustls,postgres"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -80,6 +80,9 @@ jobs:
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
+    env:
+      SQLX_VERSION: 0.6.2
+      SQLX_FEATURES: "rustls,postgres"
     services:
       postgres:
         image: postgres:12
@@ -89,9 +92,6 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
-    env:
-      SQLX_VERSION: 0.6.2
-      SQLX_FEATURES: "rustls,postgres"
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
@@ -131,6 +131,9 @@ jobs:
   coverage:
     name: Code coverage
     runs-on: ubuntu-latest
+    env:
+      SQLX_VERSION: 0.6.2
+      SQLX_FEATURES: "rustls,postgres"
     services:
       postgres:
         image: postgres:12
@@ -140,9 +143,6 @@ jobs:
           POSTGRES_DB: postgres
         ports:
           - 5432:5432
-    env:
-      SQLX_VERSION: 0.6.2
-      SQLX_FEATURES: "rustls,postgres"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
