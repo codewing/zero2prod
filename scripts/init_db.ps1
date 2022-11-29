@@ -1,4 +1,4 @@
-Write-Host "Checking prerequisites..."
+Write-Output "Checking prerequisites..."
 
 if ($null -eq (Get-Command "psql.exe" -ErrorAction SilentlyContinue))
 { 
@@ -15,7 +15,7 @@ if ($null -eq (Get-Command "docker.exe" -ErrorAction SilentlyContinue))
     Write-Error "Unable to find docker in your PATH" -ErrorAction Stop
 }
 
-Write-Host "Setting configuration..."
+Write-Output "Setting configuration..."
 
 $DB_USER = $POSTGRES_USER ?? 'postgres'
 $DB_PASSWORD = $POSTGRES_PASSWORD ?? 'my_very_secure_database_password_1'
@@ -27,9 +27,9 @@ $env:DATABASE_URL = "postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/$
 Write-Output $env:DATABASE_URL
 
 if (Get-Variable 'SKIP_DOCKER' -Scope 'Global' -ErrorAction 'Ignore') {
-    Write-Host "Skipping Docker launch..."
+    Write-Output "Skipping Docker launch..."
 } else {
-    Write-Host "Launching Docker..."
+    Write-Output "Launching Docker..."
     &"docker.exe" run `
         -e "POSTGRES_USER=${DB_USER}" `
         -e "POSTGRES_PASSWORD=${DB_PASSWORD}" `
@@ -41,14 +41,16 @@ if (Get-Variable 'SKIP_DOCKER' -Scope 'Global' -ErrorAction 'Ignore') {
 
 $env:PGPASSWORD=${DB_PASSWORD}
 
-Write-Host "Waiting for the database to become available..."
+Write-Output "Waiting for the database to become available..."
 do {
     Write-Output "Waiting for postgres database to come online..."
     Start-Sleep -Seconds 1.0
-} until (psql -h "localhost" -U "$DB_USER -p $DB_PORT -d "postgres" -c '\q')
+    &psql --host="localhost" --username="${DB_USER}" --port="${DB_PORT}" --dbname="${DB_NAME}" -c '\q'
+} until ($LASTEXITCODE -eq 0)
 
-Write-Host "Creating the database..."
+Write-Output "Creating the database..."
+
 cargo sqlx database create
 cargo sqlx migrate run
 
-Write-Host "Finished."
+Write-Output "Finished"
