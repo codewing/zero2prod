@@ -31,6 +31,7 @@ if (Get-Variable 'SKIP_DOCKER' -Scope 'Global' -ErrorAction 'Ignore') {
 } else {
     Write-Output "Launching Docker..."
     &"docker.exe" run `
+        --name ="zero2prod_db" `
         -e "POSTGRES_USER=${DB_USER}" `
         -e "POSTGRES_PASSWORD=${DB_PASSWORD}" `
         -e "POSTGRES_DB=${DB_NAME}" `
