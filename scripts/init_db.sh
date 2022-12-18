@@ -27,12 +27,13 @@ DB_NAME="${POSTGRES_DB:=newsletter}"
 DB_PORT="${POSTGRES_PORT:=5432}"
 
 DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}
-export DATABASE_URL
+export DATABASE_URL=${DATABASE_URL}
 
 # Launch postgres using Docker
 if [[ -z "${SKIP_DOCKER}" ]]
 then
   docker run \
+    --name="zero2prod_db" \
     -e POSTGRES_USER=${DB_USER} \
     -e POSTGRES_PASSWORD=${DB_PASSWORD} \
     -e POSTGRES_DB=${DB_NAME} \
@@ -49,5 +50,5 @@ until PGPASSWORD="${DB_PASSWORD}" psql -h "localhost" -U "${DB_USER}" -p "${DB_P
 done
 echo "Postgres is up and running on port ${DB_PORT}!"
 
-cargo sqlx database create
-cargo sqlx migrate run
+sqlx database create
+sqlx migrate run
