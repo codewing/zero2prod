@@ -14,7 +14,7 @@ jobs:
       SQLX_FEATURES: "rustls,postgres"
     services:
       postgres:
-        image: postgres:12
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
@@ -85,7 +85,7 @@ jobs:
       SQLX_FEATURES: "rustls,postgres"
     services:
       postgres:
-        image: postgres:12
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
@@ -136,7 +136,7 @@ jobs:
       SQLX_FEATURES: "rustls,postgres"
     services:
       postgres:
-        image: postgres:12
+        image: postgres:15
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
