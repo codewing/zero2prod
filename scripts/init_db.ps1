@@ -21,8 +21,9 @@ $DB_USER = $POSTGRES_USER ?? 'postgres'
 $DB_PASSWORD = $POSTGRES_PASSWORD ?? 'my_very_secure_database_password_1'
 $DB_NAME = $POSTGRES_DB ?? 'newsletter'
 $DB_PORT = $POSTGRES_PORT ?? '5432'
+$DB_HOST = $POSTGRES_HOST ?? 'localhost'
 
-$env:DATABASE_URL = "postgres://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}"
+$env:DATABASE_URL = "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}"
 
 Write-Output $env:DATABASE_URL
 
@@ -46,7 +47,7 @@ Write-Output "Waiting for the database to become available..."
 do {
     Write-Output "Waiting for postgres database to come online..."
     Start-Sleep -Seconds 1.0
-    &psql --host="localhost" --username="${DB_USER}" --port="${DB_PORT}" --dbname="${DB_NAME}" -c '\q'
+    &psql --host="${DB_HOST}" --username="${DB_USER}" --port="${DB_PORT}" --dbname="${DB_NAME}" -c '\q'
 } until ($LASTEXITCODE -eq 0)
 
 Write-Output "Creating the database..."
