@@ -4,7 +4,7 @@ use serde::Deserialize;
 #[derive(Deserialize)]
 pub struct SubscriberData {
     name: String,
-    email: String,
+    _email: String,
 }
 
 pub async fn subscribe(form: web::Form<SubscriberData>) -> impl Responder {
