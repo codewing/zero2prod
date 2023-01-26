@@ -4,11 +4,11 @@ use serde::Deserialize;
 #[derive(Deserialize)]
 pub struct SubscriberData {
     name: String,
-    _email: String,
+    email: String,
 }
 
 pub async fn subscribe(form: web::Form<SubscriberData>) -> impl Responder {
-    println!("Hello {}", form.name);
+    println!("Hello {} ({})", form.name, form.email);
 
     HttpResponse::Ok().finish()
 }
