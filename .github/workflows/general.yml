@@ -181,6 +181,4 @@ jobs:
         with:
           crate: cargo-tarpaulin
           version: latest
-      - run: cargo tarpaulin
-        with:
-          args: '--ignore-tests'
+      - run: cargo tarpaulin --ignore-tests
