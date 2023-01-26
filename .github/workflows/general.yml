@@ -12,7 +12,6 @@ jobs:
     env:
       SQLX_VERSION: 0.6.2
       SQLX_FEATURES: "rustls,postgres"
-      POSTGRES_HOST: "postgres"
     services:
       postgres:
         image: postgres:15
