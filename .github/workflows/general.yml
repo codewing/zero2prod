@@ -88,8 +88,8 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: my_very_secure_database_password_1
+          POSTGRES_DB: newsletter
         ports:
           - 5432:5432
     steps:
@@ -139,8 +139,8 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: postgres
+          POSTGRES_PASSWORD: my_very_secure_database_password_1
+          POSTGRES_DB: newsletter
         ports:
           - 5432:5432
     steps:
