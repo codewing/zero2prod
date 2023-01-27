@@ -1,8 +1,6 @@
-use actix_web::{web, HttpResponse, Responder};
+use actix_web::{HttpResponse, Responder, web};
 use serde::Deserialize;
-use sqlx::{PgPool};
-use sqlx::types::Uuid;
-use chrono::Utc;
+use sqlx::PgPool;
 
 #[derive(Deserialize)]
 pub struct SubscriberData {
@@ -10,7 +8,10 @@ pub struct SubscriberData {
     email: String,
 }
 
-pub async fn subscribe(form: web::Form<SubscriberData>, connection_pool: web::Data<PgPool>) -> impl Responder {
+pub async fn subscribe(
+    form: web::Form<SubscriberData>,
+    connection_pool: web::Data<PgPool>,
+) -> impl Responder {
     println!("{} ({}) just subscribed!", form.name, form.email);
 
     match sqlx::query!(
@@ -22,11 +23,13 @@ pub async fn subscribe(form: web::Form<SubscriberData>, connection_pool: web::Da
         form.email,
         form.name,
         Utc::now()
-    ).execute(connection_pool.get_ref()).await
+    )
+        .execute(connection_pool.get_ref())
+        .await
     {
         Ok(_) => HttpResponse::Ok().finish(),
         Err(e) => {
-            println!("Failed to insert data: {}", e);
+            println!("Failed to insert data: {e}");
             HttpResponse::InternalServerError().finish()
         }
     }

@@ -1,5 +1,7 @@
-use sqlx::{PgPool};
 use std::net::TcpListener;
+
+use sqlx::PgPool;
+
 use zero2prod::configuration::get_configuration;
 
 pub struct TestAppConfig {
@@ -92,12 +94,12 @@ async fn spawn_app() -> TestAppConfig {
     let address = format!("http://127.0.0.1:{}", port);
 
     let configuration = get_configuration().expect("Failed to read configuration.");
-    let connection_pool = PgPool::connect(
-        &configuration.database.connection_string())
+    let connection_pool = PgPool::connect(&configuration.database.connection_string())
         .await
         .expect("Failed to connect to Postgres.");
 
-    let server = zero2prod::startup::run(listener, connection_pool.clone()).expect("Failed to start server.");
+    let server = zero2prod::startup::run(listener, connection_pool.clone())
+        .expect("Failed to start server.");
     let _ = tokio::spawn(server);
 
     TestAppConfig {
