@@ -1,4 +1,4 @@
-use actix_web::{HttpResponse, Responder, web};
+use actix_web::{web, HttpResponse, Responder};
 use chrono::Utc;
 use serde::Deserialize;
 use sqlx::PgPool;
@@ -29,8 +29,8 @@ pub async fn subscribe(
         form.name,
         now
     )
-        .execute(connection_pool.get_ref())
-        .await
+    .execute(connection_pool.get_ref())
+    .await
     {
         Ok(_) => HttpResponse::Ok().finish(),
         Err(e) => {
