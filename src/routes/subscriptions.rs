@@ -19,8 +19,8 @@ pub async fn subscribe(
     let request_span = tracing::info_span!(
         "Adding a new subscriber",
         %request_id,
-        %subscriber_name = form.name,
-        %subscriber_email = form.email
+        subscriber_name = %form.name,
+        subscriber_email = %form.email
     );
 
     let _request_span_guard = request_span.enter();
@@ -40,8 +40,8 @@ pub async fn subscribe(
         form.name,
         now
     )
-    .instrument(query_span)
     .execute(connection_pool.get_ref())
+    .instrument(query_span)
     .await
     {
         Ok(_) => {
